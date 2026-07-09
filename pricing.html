@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XenoPrime — Pricing</title>
+<meta name="description" content="Simple, transparent pricing for premium web development. Choose your plan and get started.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/design-tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/nav.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<style>
+.pricing-hero{padding:calc(var(--nav-height) + 4rem) 0 2rem;text-align:center}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-xl);margin:3rem 0;align-items:stretch}
+@media(max-width:900px){.plans{grid-template-columns:1fr;max-width:440px;margin-left:auto;margin-right:auto}}
+.plan{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-xl);padding:var(--space-2xl);display:flex;flex-direction:column;position:relative;overflow:hidden;transition:all var(--duration-normal) var(--ease-out)}
+.plan:hover{border-color:var(--border-hover);transform:translateY(-8px);box-shadow:var(--shadow-card-hover)}
+.plan.featured{border-color:rgba(79,125,245,0.4);background:linear-gradient(180deg,var(--bg-card) 0%,rgba(79,125,245,0.05) 100%)}
+.plan.featured::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient-primary)}
+.plan-badge{position:absolute;top:1rem;right:1rem;background:var(--gradient-primary);color:white;font-family:var(--font-mono);font-size:var(--fs-xs);font-weight:var(--fw-semibold);padding:4px 12px;border-radius:var(--radius-full);letter-spacing:var(--ls-wide)}
+.plan-name{font-family:var(--font-display);font-size:var(--fs-h3);font-weight:var(--fw-bold);margin-bottom:4px}
+.plan-tag{color:var(--text-secondary);font-size:var(--fs-small);margin-bottom:var(--space-xl)}
+.plan-price{font-family:var(--font-display);font-size:2.5rem;font-weight:var(--fw-bold);margin-bottom:4px}
+.plan-price span{font-size:var(--fs-body);font-weight:var(--fw-regular);color:var(--text-secondary);font-family:var(--font-body)}
+.plan-days{font-family:var(--font-mono);font-size:var(--fs-xs);color:var(--accent-cyan);margin-bottom:var(--space-xl)}
+.plan-features{flex:1;margin-bottom:var(--space-xl)}
+.plan-features li{display:flex;gap:10px;align-items:flex-start;font-size:var(--fs-small);color:var(--text-secondary);padding:8px 0;border-bottom:1px solid var(--border-subtle)}
+.plan-features li:last-child{border-bottom:none}
+.plan-features li::before{content:'✓';color:var(--accent-cyan);font-weight:var(--fw-bold);flex-shrink:0}
+.plan-features li.no::before{content:'—';color:var(--text-tertiary)}
+.plan-features li.no{color:var(--text-tertiary)}
+.plan-btn{display:block;text-align:center;padding:14px;border-radius:var(--radius-md);font-weight:var(--fw-semibold);font-size:var(--fs-body);transition:all var(--duration-normal) var(--ease-out);border:1px solid var(--border-default);color:var(--text-primary);background:var(--bg-glass)}
+.plan-btn:hover{transform:translateY(-2px);border-color:var(--border-hover)}
+.plan.featured .plan-btn{background:var(--gradient-primary);color:white;border:none;box-shadow:0 4px 20px rgba(79,125,245,0.3)}
+.plan.featured .plan-btn:hover{box-shadow:0 8px 30px rgba(79,125,245,0.4)}
+.note{text-align:center;color:var(--text-secondary);font-size:var(--fs-small);margin-bottom:4rem}
+.note a{color:var(--accent-blue);transition:color var(--duration-fast)}
+.note a:hover{color:var(--accent-blue-light)}
+</style>
+</head>
+<body>
+<div class="loader" id="loader"><div class="loader__brand">Xeno<span class="text-gradient">Prime</span></div><div class="loader__bar"><div class="loader__bar-fill"></div></div></div>
+<div class="noise-overlay"></div>
+<div class="scroll-progress"></div>
+<div class="cursor-glow"></div><div class="cursor-dot"></div>
+
+<div class="global-bg" id="globalBg"></div>
+
+<nav class="nav"><div class="nav__inner">
+  <a href="index.html" class="nav__brand">Xeno<span class="nav__brand-accent">Prime</span></a>
+  <div class="nav__links">
+    <!-- Currency Toggle -->
+    <div class="currency-dropdown-wrap">
+      <button class="currency-btn-active">🇺🇸 USD <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="currency-menu">
+        <div class="currency-option" data-currency="USD">🇺🇸 USD</div>
+        <div class="currency-option" data-currency="EUR">🇪🇺 EUR</div>
+        <div class="currency-option" data-currency="GBP">🇬🇧 GBP</div>
+        <div class="currency-option" data-currency="INR">🇮🇳 INR</div>
+      </div>
+    </div>
+    <a href="index.html" class="nav__link">← Back to Home</a>
+  </div>
+</div></nav>
+
+<section class="pricing-hero" style="position: relative; overflow: hidden;">
+  <!-- Live Plasma WebGL Background -->
+  <canvas class="plasma-bg-canvas" style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
+  <canvas id="orb-particles" style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;"></canvas>
+  <div class="container" style="position: relative; z-index: 10;">
+    <div class="eyebrow" data-gsap="fade-up">Transparent Pricing</div>
+    <h1 class="heading-1" data-gsap="fade-up" style="margin-top:1rem">Pick a plan, <span class="text-gradient">start building</span></h1>
+    <p class="text-lg text-dim" data-gsap="fade-up" style="max-width:520px;margin:1rem auto 0">No hidden charges. Choose what fits and we'll handle the rest.</p>
+  </div>
+</section>
+
+<div class="container">
+
+  <div class="plans" data-gsap="stagger">
+    <div class="plan" data-tilt>
+      <div class="plan-name">Basic</div>
+      <div class="plan-tag">Simple one-page presence</div>
+      <div class="plan-price">$99<span>/one-time</span></div>
+      <div class="plan-days">2–3 day delivery</div>
+      <ul class="plan-features">
+        <li>1 page (Home)</li><li>Mobile responsive</li><li>Contact form</li><li>1 revision round</li>
+        <li class="no">Custom animations</li><li class="no">SEO setup</li>
+      </ul>
+      <a class="plan-btn" href="payment.html?plan=basic">Book Now</a>
+    </div>
+    <div class="plan featured" data-tilt>
+      <div class="plan-badge">POPULAR</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-tag">Full business website</div>
+      <div class="plan-price">$249<span>/one-time</span></div>
+      <div class="plan-days">4–6 day delivery</div>
+      <ul class="plan-features">
+        <li>Up to 5 pages</li><li>Mobile responsive</li><li>Contact + WhatsApp</li>
+        <li>Custom animations</li><li>Basic SEO setup</li><li>3 revision rounds</li>
+      </ul>
+      <a class="plan-btn" href="payment.html?plan=pro">Book Now</a>
+    </div>
+    <div class="plan" data-tilt>
+      <div class="plan-name">Elite</div>
+      <div class="plan-tag">Catalogs, orders & growth</div>
+      <div class="plan-price">$499<span>/one-time</span></div>
+      <div class="plan-days">7–10 day delivery</div>
+      <ul class="plan-features">
+        <li>Unlimited pages</li><li>Mobile responsive</li><li>Product catalog</li>
+        <li>Premium animations</li><li>Full SEO setup</li><li>Unlimited revisions</li>
+      </ul>
+      <a class="plan-btn" href="payment.html?plan=elite">Book Now</a>
+    </div>
+  </div>
+  <p class="note">Not sure? <a href="index.html#contact">Send a request</a> and we'll help you pick.</p>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer__bottom">
+  <p class="footer__copyright">© 2026 XenoPrime. All rights reserved.</p>
+  <div class="footer__socials">
+    <a href="mailto:xenoprimelix@gmail.com" class="footer__social" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg></a>
+    <a href="#" class="footer__social" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>
+  </div>
+</div></div></footer>
+
+<button class="back-to-top" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg></button>
+
+<!-- Order Modal -->
+<div id="orderModal" class="modal-overlay">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeOrderModal()" aria-label="Close">✕</button>
+    <div class="nav__brand" style="margin-bottom:8px">Xeno<span class="nav__brand-accent">Prime</span></div>
+    <h3 style="margin-bottom: 0.5rem; color: #fff;">Let's Start Your Build</h3>
+    <p class="text-dim text-sm" style="margin-bottom:1rem">Complete this form and we will reach out within 24 hours to begin.</p>
+    
+    <form class="order-form" onsubmit="submitOrder(event)">
+      <div>
+        <label>Selected Plan</label>
+        <input type="text" id="orderPlan" readonly style="background: rgba(0,212,255,0.05); color: #00d4ff; font-weight: bold;">
+      </div>
+      <div>
+        <label>Your Name</label>
+        <input type="text" id="orderName" required placeholder="John Doe">
+      </div>
+      <div>
+        <label>Email Address</label>
+        <input type="email" id="orderEmail" required placeholder="john@example.com">
+      </div>
+      <div>
+        <label>Project Details / Links</label>
+        <textarea id="orderDetails" rows="4" required placeholder="Tell us about your business or share references..."></textarea>
+      </div>
+      <button type="submit" class="btn btn--primary" style="margin-top: 1rem; width: 100%;">Submit Request →</button>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="liquid-glass-main/liquid-glass.js"></script>
+<script src="assets/js/plasma-bg.js"></script>
+<script src="assets/js/orb-particles.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+  // Currency Logic
+  const rates = { USD: 1, EUR: 0.9, GBP: 0.8, INR: 83 };
+  const symbols = { USD: '$', EUR: '€', GBP: '£', INR: '₹' };
+  const basePrices = [99, 249, 499];
+  const priceElements = document.querySelectorAll('.plan-price');
+  const activeCurrencyBtn = document.querySelector('.currency-btn-active');
+  
+  document.querySelectorAll('.currency-option').forEach(opt => {
+    opt.addEventListener('click', (e) => {
+      const currency = e.target.getAttribute('data-currency');
+      const text = e.target.innerText;
+      
+      activeCurrencyBtn.innerHTML = `${text} <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>`;
+      
+      priceElements.forEach((el, index) => {
+        const span = el.querySelector('span');
+        const converted = Math.round(basePrices[index] * rates[currency]);
+        el.innerHTML = `${symbols[currency]}${converted}<span>/one-time</span>`;
+      });
+    });
+  });
+
+  // Modal Logic
+  const orderModal = document.getElementById('orderModal');
+  const planInput = document.getElementById('orderPlan');
+  
+  document.querySelectorAll('.plan-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const planName = e.target.parentElement.querySelector('.plan-name').innerText;
+      planInput.value = planName + ' Plan';
+      orderModal.classList.add('active');
+    });
+  });
+  
+  function closeOrderModal() {
+    orderModal.classList.remove('active');
+  }
+  
+  function submitOrder(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    
+    // Get form data
+    const plan = document.getElementById('orderPlan').value;
+    const name = document.getElementById('orderName').value;
+    const email = document.getElementById('orderEmail').value;
+    const details = document.getElementById('orderDetails').value;
+    
+    // Store temporarily for the payment page
+    localStorage.setItem('xeno_order', JSON.stringify({
+      plan: plan,
+      name: name,
+      email: email,
+      details: details,
+      // Find the price of the selected plan from the DOM based on the selected plan text
+      price: document.querySelector('.currency-btn-active').innerText.split(' ')[1] // Fallback price logic handled in payment
+    }));
+    
+    // Visual feedback & redirect
+    btn.innerText = "Redirecting to Checkout...";
+    btn.style.background = "#10b981";
+    btn.style.borderColor = "#10b981";
+    
+    setTimeout(() => {
+      window.location.href = 'payment.html';
+    }, 800);
+  }
+</script>
+</body>
+</html>

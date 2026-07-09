@@ -1,0 +1,227 @@
+/* ═══════════════════════════════════════════════════════════════
+   XENOPRIME — Hero Section
+   Clean hero with fluid blue accents — spiral is moved to bottom
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=La+Belle+Aurore&display=swap');
+
+/* ─── Subtle Ambient BG glow ─── */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 60% 50% at 30% 40%, rgba(30, 144, 255, 0.08), transparent),
+    radial-gradient(ellipse 50% 60% at 70% 60%, rgba(0, 212, 255, 0.06), transparent);
+  z-index: 0;
+  animation: ambient-pulse 15s ease-in-out infinite alternate;
+}
+@keyframes ambient-pulse {
+  0% { opacity: 0.8; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: var(--nav-height);
+  background-color: var(--bg);
+  background-color: var(--bg-primary);
+}
+
+/* ─── Lens Flares (Blue Plasma Glow) ─── */
+.lens-flare {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+.lens-flare--1 {
+  top: 10%;
+  left: 20%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(30, 144, 255, 0.12) 0%, transparent 70%);
+  animation: lensFloat1 12s ease-in-out infinite alternate;
+}
+.lens-flare--2 {
+  bottom: 10%;
+  right: 15%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+  animation: lensFloat2 15s ease-in-out infinite alternate;
+}
+@keyframes lensFloat1 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, 20px) scale(1.1); }
+}
+@keyframes lensFloat2 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-20px, -30px) scale(1.15); }
+}
+
+/* ─── Main Hero Layout ─── */
+.hero__layout {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  pointer-events: auto; /* Fix for buttons */
+  gap: 1.5rem;
+}
+
+/* ─── Subtitle Top ─── */
+.hero__subtitle-top {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.5em;
+  color: rgba(0, 212, 255, 0.7);
+  text-transform: uppercase;
+}
+
+/* ─── 3-Stack Typography ─── */
+.hero__stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 0.82;
+  position: relative;
+}
+
+.hero__word {
+  font-family: 'Playfair Display', var(--font-serif);
+  font-size: clamp(5rem, 14vw, 14rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  will-change: transform;
+}
+
+.hero__word--stroke {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(30, 144, 255, 0.3);
+}
+
+.hero__word--solid {
+  color: #ffffff;
+  text-shadow:
+    0 0 80px rgba(30, 144, 255, 0.4),
+    0 0 160px rgba(0, 212, 255, 0.15),
+    0 2px 4px rgba(0, 0, 0, 0.8);
+  position: relative;
+  z-index: 2;
+}
+
+/* ─── Rainbow Iridescent Glare on Text ─── */
+.rainbow-glare {
+  background: linear-gradient(135deg, 
+    #1e90ff 0%, 
+    #00d4ff 12%, 
+    #ffffff 22%,
+    #ff6ec7 32%, 
+    #8b5cf6 42%, 
+    #00d4ff 52%, 
+    #ffffff 62%,
+    #4facfe 72%,
+    #00f2fe 82%,
+    #1e90ff 100%
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent !important;
+  animation: mirror-shift 6s linear infinite;
+  text-shadow: none;
+  filter: drop-shadow(0 0 60px rgba(30, 144, 255, 0.6)) drop-shadow(0 2px 4px rgba(0,0,0,0.9));
+}
+@keyframes mirror-shift {
+  0% { background-position: 100% 50%; }
+  100% { background-position: -50% 50%; }
+}
+
+/* ─── Script Overlay ─── */
+.hero__word-script {
+  font-family: 'La Belle Aurore', cursive, serif;
+  font-weight: 300;
+  font-size: clamp(2rem, 8vw, 8rem);
+  color: #00d4ff;
+  position: absolute;
+  top: 65%;
+  left: 70%;
+  transform: translate(-50%, -50%) rotate(-12deg);
+  text-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+  pointer-events: none;
+  z-index: 5;
+  text-transform: none;
+  letter-spacing: 0;
+  -webkit-text-stroke: 0;
+}
+
+/* ─── Subtitle Bottom ─── */
+.hero__subtitle-bottom {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  line-height: 1.8;
+  letter-spacing: 0.2em;
+  color: rgba(200, 220, 255, 0.6);
+  text-transform: uppercase;
+  text-align: center;
+  max-width: 550px;
+}
+
+/* ─── Scroll Indicator ─── */
+.hero__scroll {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(0, 212, 255, 0.4);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.hero__scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(0, 212, 255, 0.5), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+/* ─── Plasma Zone ─── */
+.plasma-zone {
+  background: var(--bg-primary);
+}
+
+/* ─── Mobile Responsive ─── */
+@media (max-width: 768px) {
+  .hero { padding: calc(var(--nav-height) + 2rem) 0 2rem; }
+  .hero__word { font-size: clamp(3.5rem, 18vw, 8rem); }
+  .hero__subtitle-bottom { font-size: 0.55rem; max-width: 320px; }
+  .lens-flare--1 { width: 250px; height: 250px; }
+  .lens-flare--2 { width: 300px; height: 300px; }
+}

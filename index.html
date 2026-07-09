@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XenoPrime — Premium Web Development Studio</title>
+<meta name="description" content="XenoPrime crafts stunning, hand-crafted websites for businesses, portfolios, and online stores. Premium design, fast delivery.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/design-tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/nav.css">
+<link rel="stylesheet" href="assets/css/hero.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<style>
+/* Page-specific icon animations */
+.icon-animated { transition: transform 0.3s var(--ease-out); }
+.service-card:hover .icon-animated { transform: scale(1.15) rotate(-5deg); }
+.service-card__icon svg { width: 28px; height: 28px; stroke-width: 1.5; }
+</style>
+</head>
+<body class="theme-dark">
+
+<!-- Global 3D Floating Crystal Particles -->
+<canvas id="crystal-particles" style="position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;"></canvas>
+
+<!-- Loading Screen -->
+<div class="loader" id="loader">
+  <div class="loader__brand">Xeno<span class="text-gradient">Prime</span></div>
+  <div class="loader__bar"><div class="loader__bar-fill"></div></div>
+</div>
+
+<!-- Noise Overlay -->
+<div class="noise-overlay"></div>
+
+<!-- Scroll Progress -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<div class="global-bg" id="globalBg"></div>
+
+<!-- Custom Cursor -->
+<div class="cursor-glow"></div>
+<div class="cursor-dot"></div>
+
+<!-- Navigation -->
+<nav class="nav" id="mainNav">
+  <div class="nav__inner">
+    <a href="/" class="nav__brand">Xeno<span class="nav__brand-accent">Prime</span></a>
+    <div class="nav__links">
+      <a href="#services" class="nav__link">Services</a>
+      <a href="#process" class="nav__link">Process</a>
+      <a href="portfolio.html" class="nav__link">Portfolio</a>
+      <a href="#testimonials" class="nav__link">Reviews</a>
+      <a href="#faq" class="nav__link">FAQ</a>
+      <a href="#contact" class="nav__link">Contact</a>
+    </div>
+    <div class="currency-dropdown-wrap" style="margin-right: 1rem;">
+      <button class="currency-btn-active">🇺🇸 USD <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="currency-menu">
+        <div class="currency-option" data-currency="USD">🇺🇸 USD</div>
+        <div class="currency-option" data-currency="EUR">🇪🇺 EUR</div>
+        <div class="currency-option" data-currency="GBP">🇬🇧 GBP</div>
+        <div class="currency-option" data-currency="INR">🇮🇳 INR</div>
+      </div>
+    </div>
+    <a href="pricing.html" class="btn btn--primary nav__cta" data-magnetic>View Pricing</a>
+    <button class="nav__toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="nav__mobile">
+  <a href="#services">Services</a><a href="#process">Process</a>
+  <a href="portfolio.html">Portfolio</a><a href="#testimonials">Reviews</a>
+  <a href="#faq">FAQ</a><a href="#contact">Contact</a><a href="pricing.html">Pricing</a>
+</div>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <!-- Lens Flare Backgrounds -->
+  <div class="lens-flare lens-flare--1"></div>
+  <div class="lens-flare lens-flare--2"></div>
+  <!-- Live Plasma Background -->
+  <canvas class="plasma-bg-canvas" style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
+
+  <!-- Hero is now clean — spiral moved to bottom -->
+
+  <div class="hero__layout">
+    <div class="hero__subtitle-top">XENOPRIME STUDIO</div>
+    <div class="hero__stack">
+      <div class="hero__word hero__word--stroke">XENO</div>
+      <div class="hero__word hero__word--solid rainbow-glare">XENO
+        <span class="hero__word-script">Studio</span>
+      </div>
+      <div class="hero__word hero__word--stroke">XENO</div>
+    </div>
+    <div class="hero__subtitle-bottom">
+      <p>AWARD-WINNING WEB DESIGN. PRECISION ENGINEERING, ABSOLUTE<br>
+      STEALTH, AND INSTANT DELIVERY. MAKING IT A TIMELESS EMBLEM<br>
+      OF DIGITAL ELEGANCE AND PERFORMANCE.</p>
+      <div style="margin-top: 2.5rem; display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+        <a href="pricing.html" class="btn btn--primary" style="padding: 1.25rem 3rem; font-size: 1.1rem; box-shadow: 0 0 40px rgba(30, 144, 255, 0.4); border: 1px solid rgba(0, 212, 255, 0.5);">Start Your Project</a>
+        <a href="https://www.instagram.com/_xeno_prime/" target="_blank" rel="noopener noreferrer" class="btn btn--secondary" style="padding: 1rem 1.5rem; display: flex; align-items: center; gap: 0.5rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 999px; color: #fff; text-decoration: none; transition: all 0.3s ease; backdrop-filter: blur(10px);">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          <span style="font-family: var(--font-body); font-weight: 500; font-size: 0.9rem; letter-spacing: 0.05em; text-transform: none;">Instagram</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="hero__scroll">
+    <span>Scroll</span>
+    <div class="hero__scroll-line"></div>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee"><div class="marquee__track">
+  <span class="marquee__item">Web Design</span><span class="marquee__item">Development</span><span class="marquee__item">GFX & VFX</span><span class="marquee__item">E-Commerce</span><span class="marquee__item">Portfolios</span><span class="marquee__item">Business Sites</span><span class="marquee__item">Web Design</span><span class="marquee__item">Development</span><span class="marquee__item">GFX & VFX</span><span class="marquee__item">E-Commerce</span><span class="marquee__item">Portfolios</span><span class="marquee__item">Business Sites</span>
+</div></div>
+
+<!-- Services -->
+<section class="section" id="services" style="position: relative; overflow: hidden;">
+  <!-- Subtle fluid BG behind services -->
+  <div style="position:absolute;inset:0;z-index:0;opacity:0.08;background:url('assets/download.jpg') center/cover no-repeat;filter:blur(6px) saturate(1.2);"></div>
+  <div class="container" style="position: relative; z-index: 10;">
+    <div class="section-header" data-gsap="fade-up">
+      <div class="eyebrow">What We Build</div>
+      <h2 class="heading-2" style="margin-top:var(--space-md)">Every project is custom-built,<br>never a recycled template.</h2>
+      <p class="text-lg text-dim" style="margin-top:var(--space-md)">Whatever your vision, we bring it to life with precision and craft.</p>
+    </div>
+    <div class="services__grid" data-gsap="stagger">
+
+      <!-- Card 1: Business -->
+      <div class="service-card" data-tilt>
+        <div class="service-card__icon service-card__icon--blue">
+          <svg class="icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <h3 class="service-card__title">Business Website</h3>
+        <p class="service-card__desc">Your complete online identity — hours, services, location, and contact in one professional, fast-loading hub.</p>
+        <div class="service-card__meta"><span class="service-card__tag">3–5 days</span><a href="pricing.html" class="service-card__link">Book Now →</a></div>
+      </div>
+
+      <!-- Card 2: Portfolio -->
+      <div class="service-card" data-tilt>
+        <div class="service-card__icon service-card__icon--purple">
+          <svg class="icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </div>
+        <h3 class="service-card__title">Portfolio & Resume</h3>
+        <p class="service-card__desc">Showcase your work, skills, and experience with a stunning personal site that gets you noticed and hired.</p>
+        <div class="service-card__meta"><span class="service-card__tag">2–4 days</span><a href="pricing.html" class="service-card__link">Book Now →</a></div>
+      </div>
+
+      <!-- Card 3: Store -->
+      <div class="service-card" data-tilt>
+        <div class="service-card__icon service-card__icon--cyan">
+          <svg class="icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        </div>
+        <h3 class="service-card__title">Online Store</h3>
+        <p class="service-card__desc">Product catalogs with WhatsApp ordering — clean, mobile-first shopping without complicated ecommerce setups.</p>
+        <div class="service-card__meta"><span class="service-card__tag">5–7 days</span><a href="pricing.html" class="service-card__link">Book Now →</a></div>
+      </div>
+
+      <!-- Card 4: GFX/VFX -->
+      <div class="service-card" data-tilt>
+        <div class="service-card__icon service-card__icon--blue">
+          <svg class="icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        </div>
+        <h3 class="service-card__title">GFX & VFX Production</h3>
+        <p class="service-card__desc">Stunning visual effects, 3D motion graphics, and high-end graphic design to elevate your brand's digital presence.</p>
+        <div class="service-card__meta"><span class="service-card__tag">Custom</span><a href="#contact" class="service-card__link">Inquire Now →</a></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="section section--no-top" id="stats">
+  <div class="container">
+    <div class="stats" data-gsap="stagger">
+      <div class="stat"><span class="stat__number" data-counter="50" data-suffix="+">0</span><span class="stat__label">Projects Delivered</span></div>
+      <div class="stat"><span class="stat__number" data-counter="98" data-suffix="%">0</span><span class="stat__label">Client Satisfaction</span></div>
+      <div class="stat"><span class="stat__number" data-counter="48" data-suffix="hr">0</span><span class="stat__label">Avg. Turnaround</span></div>
+      <div class="stat"><span class="stat__number" data-counter="24" data-suffix="/7">0</span><span class="stat__label">Support Available</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Process -->
+<section class="section" id="process">
+  <div class="container">
+    <div class="section-header section-header--center" data-gsap="fade-up">
+      <div class="eyebrow">How It Works</div>
+      <h2 class="heading-2" style="margin-top:var(--space-md)">From your idea to a live website</h2>
+      <p class="text-lg text-dim" style="margin-top:var(--space-md)">Four simple steps — you're looped in at every stage.</p>
+    </div>
+    <div class="process__timeline" data-gsap="stagger">
+      <div class="process__step"><div class="process__step-num">01</div><h4 class="process__step-title">Share Your Vision</h4><p class="process__step-desc">Fill out a brief — your business, style preferences, and goals.</p></div>
+      <div class="process__step"><div class="process__step-num">02</div><h4 class="process__step-title">Design & Prototype</h4><p class="process__step-desc">We deliver the first draft within 48 hours of confirmation.</p></div>
+      <div class="process__step"><div class="process__step-num">03</div><h4 class="process__step-title">Review & Refine</h4><p class="process__step-desc">Unlimited feedback rounds until every detail is perfect.</p></div>
+      <div class="process__step"><div class="process__step-num">04</div><h4 class="process__step-title">Launch Day</h4><p class="process__step-desc">Your polished website goes live — ready for the world.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Portfolio CTA -->
+<section class="section section--no-bottom" id="work">
+  <div class="container">
+    <div class="cta-banner" data-gsap="scale">
+      <h2 class="cta-banner__title">Want to see our work <span class="text-gradient">in action</span>?</h2>
+      <p class="cta-banner__desc">Watch a real project being built — from blank canvas to live website.</p>
+      <a href="see-what-i-build.html" class="btn btn--primary" data-magnetic>View Live Build →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="section" id="testimonials" style="position: relative;">
+  <!-- Spiral Background in Corner -->
+  <canvas class="webgl-spiral" data-style="1" style="position:absolute; right: -50px; bottom: 0; width: 800px; height: 800px; z-index:0; pointer-events:none;"></canvas>
+  <div class="container" style="position: relative; z-index: 1;">
+    <div class="section-header" data-gsap="fade-up">
+      <div class="eyebrow">Client Reviews</div>
+      <h2 class="heading-2" style="margin-top:var(--space-md)">Trusted by businesses everywhere</h2>
+    </div>
+    <div class="testimonials__track">
+      <div class="testimonial-card"><div class="testimonial-card__stars">★★★★★</div><p class="testimonial-card__text">"Delivered my restaurant website in 3 days. Looks absolutely stunning — customers keep complimenting it."</p><div class="testimonial-card__author"><div class="testimonial-card__avatar">RK</div><div><div class="testimonial-card__name">Ramesh Kumar</div><div class="testimonial-card__role">Restaurant Owner</div></div></div></div>
+      <div class="testimonial-card"><div class="testimonial-card__stars">★★★★★</div><p class="testimonial-card__text">"My portfolio helped me land 3 freelance clients in the first month. The design feels truly premium."</p><div class="testimonial-card__author"><div class="testimonial-card__avatar">SP</div><div><div class="testimonial-card__name">Sneha Patel</div><div class="testimonial-card__role">Graphic Designer</div></div></div></div>
+      <div class="testimonial-card"><div class="testimonial-card__stars">★★★★★</div><p class="testimonial-card__text">"Professional, responsive, and patient with revisions. The online catalog completely transformed my sales."</p><div class="testimonial-card__author"><div class="testimonial-card__avatar">AJ</div><div><div class="testimonial-card__name">Arjun Joshi</div><div class="testimonial-card__role">E-Commerce Seller</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section section--no-bottom" id="faq" style="position: relative; overflow: hidden;">
+  <div class="bg-flare" style="left: -10%; top: 10%;"></div>
+  <div class="bg-flare" style="right: -10%; bottom: 10%;"></div>
+  <div class="container" style="position: relative; z-index: 1;">
+    <div class="section-header section-header--center" data-gsap="fade-up">
+      <div class="eyebrow">Questions & Answers</div>
+      <h2 class="heading-2" style="margin-top:var(--space-md)">Everything you need to know</h2>
+    </div>
+    <div class="faq__list" data-gsap="fade-up">
+      <div class="faq-item"><button class="faq-item__trigger">How long does it take to build my website?<span class="faq-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button><div class="faq-item__content"><p class="faq-item__answer">Most projects are delivered within 2–10 days. Simple one-pagers take 2–3 days, full business sites 4–6 days, and complex catalogs 7–10 days.</p></div></div>
+      <div class="faq-item"><button class="faq-item__trigger">What if I don't like the design?<span class="faq-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button><div class="faq-item__content"><p class="faq-item__answer">All plans include revision rounds. We iterate until you're 100% satisfied — nothing goes live without your explicit approval.</p></div></div>
+      <div class="faq-item"><button class="faq-item__trigger">Do I need to provide all the content?<span class="faq-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button><div class="faq-item__content"><p class="faq-item__answer">Your business details and images are ideal. But we can help write copy and source high-quality stock imagery if needed.</p></div></div>
+      <div class="faq-item"><button class="faq-item__trigger">Is hosting included?<span class="faq-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button><div class="faq-item__content"><p class="faq-item__answer">Yes — we deploy on fast, reliable platforms like Netlify with free SSL, global CDN, and automatic backups included.</p></div></div>
+      <div class="faq-item"><button class="faq-item__trigger">Can I edit the site myself afterward?<span class="faq-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button><div class="faq-item__content"><p class="faq-item__answer">Absolutely. We write clean, documented code. We also offer affordable maintenance packages for ongoing updates and improvements.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="section" id="contact" style="position: relative; overflow: hidden;">
+  <!-- Removed inline background -->
+  <div class="bg-flare" style="left: 50%; top: 100%; transform: translate(-50%, -50%); width: 800px; height: 800px;"></div>
+  <div class="container" style="position: relative; z-index: 1;">
+    <div class="cta-banner" data-gsap="scale">
+      <h2 class="cta-banner__title">Ready to build something <span class="text-gradient">extraordinary</span>?</h2>
+      <p class="cta-banner__desc">Start with a free consultation. No commitment — just a conversation about bringing your vision to life.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+        <a href="pricing.html" class="btn btn--primary" data-magnetic>View Pricing →</a>
+        <a href="mailto:xenoprimelix@gmail.com" class="btn btn--secondary">Email Us Directly</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Removed empty Plasma Zone Bottom to fix empty space -->
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <div class="nav__brand">Xeno<span class="nav__brand-accent">Prime</span></div>
+        <p class="footer__brand-text">Premium web development studio. Every project is handcrafted with care, precision, and purpose.</p>
+      </div>
+      <div>
+        <h4 class="footer__heading">Navigation</h4>
+        <a href="#services" class="footer__link">Services</a>
+        <a href="#process" class="footer__link">Process</a>
+        <a href="#testimonials" class="footer__link">Reviews</a>
+        <a href="#faq" class="footer__link">FAQ</a>
+      </div>
+      <div>
+        <h4 class="footer__heading">Services</h4>
+        <a href="pricing.html" class="footer__link">Business Websites</a>
+        <a href="pricing.html" class="footer__link">Portfolios</a>
+        <a href="pricing.html" class="footer__link">Online Stores</a>
+        <a href="pricing.html" class="footer__link">Custom Projects</a>
+      </div>
+      <div>
+        <h4 class="footer__heading">Get In Touch</h4>
+        <a href="mailto:xenoprimelix@gmail.com" class="footer__link">xenoprimelix@gmail.com</a>
+        <a href="#" class="footer__link">Instagram — XenoPrime</a>
+        <a href="#" class="footer__link">LinkedIn</a>
+      </div>
+    </div>
+    
+    <!-- Footer WebGL/Image Element -->
+    <div class="footer__art">
+      <img src="assets/images/flower-transparent.png" alt="XenoPrime Emblem" class="footer__flower">
+    </div>
+
+    <div class="footer__bottom">
+      <p class="footer__copyright">© 2026 XenoPrime. All rights reserved.</p>
+      <div class="footer__socials">
+        <a href="mailto:xenoprimelix@gmail.com" class="footer__social" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg></a>
+        <a href="#" class="footer__social" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>
+        <a href="#" class="footer__social" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Contact Modal -->
+<div id="contactModal" class="modal-overlay">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeContactModal()" aria-label="Close">✕</button>
+    <div class="nav__brand" style="margin-bottom:8px">Xeno<span class="nav__brand-accent">Prime</span></div>
+    <p class="text-dim text-sm" style="margin-bottom:1.5rem">We typically respond within 24 hours.</p>
+    <div class="modal-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg><a href="mailto:xenoprimelix@gmail.com">xenoprimelix@gmail.com</a></div>
+    <div class="modal-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg><span>Instagram — XenoPrime</span></div>
+    <a class="btn btn--primary" href="pricing.html" style="display:block;text-align:center;margin-top:1.5rem">Start a Project →</a>
+  </div>
+</div>
+
+<!-- Back to Top -->
+<button class="back-to-top" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg></button>
+
+<!-- Toast -->
+<div class="toast"><span class="toast__text"></span></div>
+
+<!-- Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrollTrigger.min.js"></script>
+<script src="liquid-glass-main/liquid-glass.js"></script>
+<script src="assets/js/webgl-spiral.js"></script>
+<script src="assets/js/crystal-particles.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+  // Random Number Generator for Projects Delivered
+  document.addEventListener('DOMContentLoaded', () => {
+    const projCounter = document.querySelector('.stat__number[data-counter="50"]');
+    if (projCounter) {
+      // Set to a random high number between 150 and 300 for impressive stats
+      const randomTarget = Math.floor(Math.random() * 150) + 150;
+      projCounter.setAttribute('data-counter', randomTarget);
+    }
+  });
+</script>
+</body>
+</html>

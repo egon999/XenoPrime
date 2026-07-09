@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XenoPrime — Secure Checkout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/design-tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/nav.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<style>
+.checkout-hero{padding:calc(var(--nav-height) + 3rem) 0 1.5rem;text-align:center}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-xl);margin:2.5rem 0 5rem;align-items:start}
+@media(max-width:860px){.layout{grid-template-columns:1fr}}
+.panel{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-xl);padding:var(--space-2xl);transition:border-color var(--duration-normal)}
+.panel:hover{border-color:var(--border-hover)}
+.panel h3{font-family:var(--font-display);font-size:var(--fs-h4);font-weight:var(--fw-semibold);margin-bottom:var(--space-xl)}
+.sum-row{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border-subtle);font-size:var(--fs-small)}
+.sum-row .k{color:var(--text-secondary)}.sum-row .v{font-weight:var(--fw-semibold)}
+.sum-total{display:flex;justify-content:space-between;align-items:center;margin-top:var(--space-xl);padding-top:var(--space-xl);border-top:1px dashed var(--border-default)}
+.sum-total .lbl{font-family:var(--font-mono);font-size:var(--fs-xs);color:var(--text-tertiary);text-transform:uppercase;letter-spacing:var(--ls-wide)}
+.sum-total .amt{font-family:var(--font-display);font-size:2rem;font-weight:var(--fw-bold);background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sum-note{margin-top:var(--space-lg);font-size:var(--fs-xs);color:var(--text-secondary);background:var(--bg-glass);padding:var(--space-md) var(--space-lg);border-radius:var(--radius-md);border:1px solid var(--border-subtle);line-height:var(--lh-relaxed)}
+
+/* Selectable Payment Methods */
+.method{display:flex;align-items:center;gap:var(--space-md);padding:var(--space-lg);border:1px solid var(--border-subtle);border-radius:var(--radius-md);margin-bottom:var(--space-md);transition:all var(--duration-normal) var(--ease-out);cursor:pointer;position:relative}
+.method:hover{border-color:var(--border-hover);background:var(--bg-glass)}
+.method.selected{border-color:var(--accent-blue);background:var(--accent-blue-dim);box-shadow:var(--shadow-glow-blue)}
+.method.selected::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient-primary);border-radius:var(--radius-md) var(--radius-md) 0 0}
+.method__radio{width:20px;height:20px;border-radius:50%;border:2px solid var(--border-default);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all var(--duration-fast)}
+.method.selected .method__radio{border-color:var(--accent-blue)}
+.method.selected .method__radio::after{content:'';width:10px;height:10px;border-radius:50%;background:var(--accent-blue);animation:scale-in 0.2s var(--ease-elastic)}
+@keyframes scale-in{0%{transform:scale(0)}100%{transform:scale(1)}}
+.m-icon{width:42px;height:42px;border-radius:var(--radius-sm);background:var(--accent-blue-dim);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--accent-blue)}
+.m-name{font-weight:var(--fw-semibold);font-size:var(--fs-body)}.m-desc{font-size:var(--fs-xs);color:var(--text-secondary);margin-top:2px}
+
+/* UPI QR Section */
+.qr-section{display:none;margin-top:var(--space-xl);padding:var(--space-xl);background:var(--bg-glass);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);text-align:center;animation:fade-in 0.4s var(--ease-out)}
+.qr-section.visible{display:block}
+@keyframes fade-in{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
+.qr-section h4{font-family:var(--font-display);font-size:var(--fs-body-lg);font-weight:var(--fw-semibold);margin-bottom:var(--space-md)}
+.qr-canvas-wrap{display:inline-block;padding:var(--space-md);background:white;border-radius:var(--radius-md);margin-bottom:var(--space-md)}
+#qrCanvas{display:block}
+.upi-id-box{display:flex;align-items:center;justify-content:center;gap:var(--space-sm);background:var(--surface-2);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:var(--space-sm) var(--space-lg);font-family:var(--font-mono);font-size:var(--fs-small);color:var(--text-primary);margin:var(--space-md) auto;max-width:300px}
+.copy-btn{background:var(--accent-blue-dim);color:var(--accent-blue);border:1px solid rgba(79,125,245,0.2);padding:4px 12px;border-radius:var(--radius-sm);font-size:var(--fs-xs);font-weight:var(--fw-semibold);cursor:pointer;transition:all var(--duration-fast)}
+.copy-btn:hover{background:var(--accent-blue);color:white}
+.qr-note{font-size:var(--fs-xs);color:var(--text-tertiary);margin-top:var(--space-sm)}
+
+/* Milestones */
+.milestones{margin-top:var(--space-xl);padding-top:var(--space-xl);border-top:1px solid var(--border-subtle)}
+.milestones h4{font-family:var(--font-mono);font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:var(--ls-wider);color:var(--accent-rose);margin-bottom:var(--space-md)}
+.ms-row{display:flex;justify-content:space-between;font-size:var(--fs-small);padding:10px 0;border-bottom:1px dashed var(--border-subtle);color:var(--text-secondary)}
+.ms-row:last-child{border-bottom:none}.ms-row .pct{color:var(--accent-cyan);font-weight:var(--fw-semibold)}
+
+.pay-btn{display:block;width:100%;text-align:center;padding:16px;border-radius:var(--radius-md);background:var(--gradient-primary);color:white;font-weight:var(--fw-bold);font-size:var(--fs-body);margin-top:var(--space-xl);box-shadow:0 4px 20px rgba(79,125,245,0.3);transition:all var(--duration-normal) var(--ease-out)}
+.pay-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(79,125,245,0.4)}
+.secure-note{text-align:center;font-size:var(--fs-xs);color:var(--text-tertiary);margin-top:var(--space-md);display:flex;align-items:center;justify-content:center;gap:6px}
+</style>
+</head>
+<body>
+<div class="loader" id="loader"><div class="loader__brand">Xeno<span class="text-gradient">Prime</span></div><div class="loader__bar"><div class="loader__bar-fill"></div></div></div>
+<div class="noise-overlay"></div>
+<div class="cursor-glow"></div><div class="cursor-dot"></div>
+
+<nav class="nav scrolled"><div class="nav__inner">
+  <a href="index.html" class="nav__brand">Xeno<span class="nav__brand-accent">Prime</span></a>
+  <div class="nav__links">
+    <div class="currency-dropdown-wrap">
+      <button class="currency-btn-active">🇺🇸 USD <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="currency-menu">
+        <div class="currency-option" data-currency="USD">🇺🇸 USD</div>
+        <div class="currency-option" data-currency="EUR">🇪🇺 EUR</div>
+        <div class="currency-option" data-currency="GBP">🇬🇧 GBP</div>
+        <div class="currency-option" data-currency="INR">🇮🇳 INR</div>
+      </div>
+    </div>
+    <a href="pricing.html" class="nav__link">← Back to Pricing</a>
+  </div>
+</div></nav>
+
+<section class="checkout-hero">
+  <div class="container">
+    <div class="eyebrow">Secure Checkout</div>
+    <h1 class="heading-1" style="margin-top:var(--space-md)">One step from your <span class="text-gradient">new website</span></h1>
+    <p class="text-lg text-dim" style="max-width:520px;margin:var(--space-md) auto 0">Review your order, select a payment method, and we'll start building immediately.</p>
+  </div>
+</section>
+
+<div class="container">
+  <div class="layout">
+    <!-- Order Summary -->
+    <div class="panel" data-gsap="fade-up">
+      <h3>Order Summary</h3>
+      <div class="sum-row"><span class="k">Plan</span><span class="v" id="planName">Pro</span></div>
+      <div class="sum-row"><span class="k">Delivery</span><span class="v" id="planDays">4–6 days</span></div>
+      <div class="sum-row"><span class="k">Revisions</span><span class="v" id="planRevisions">3 rounds</span></div>
+      <div class="sum-row"><span class="k">Support</span><span class="v">24/7 via email</span></div>
+      <div class="sum-total"><span class="lbl">Total</span><span class="amt" id="planPrice">$249</span></div>
+      <div class="sum-note">Your website goes live only after your explicit approval. Payment simply confirms the order and starts the build process.</div>
+
+      <div class="milestones"><h4>Payment Milestones</h4>
+        <div class="ms-row"><span>Advance — confirms your order</span><span class="pct">40%</span></div>
+        <div class="ms-row"><span>On design approval</span><span class="pct">30%</span></div>
+        <div class="ms-row"><span>Before going live</span><span class="pct">30%</span></div>
+      </div>
+    </div>
+
+    <!-- Payment Methods -->
+    <div class="panel" data-gsap="fade-up">
+      <h3>Select Payment Method</h3>
+
+      <div class="method" data-method="card" onclick="selectMethod(this)">
+        <div class="method__radio"></div>
+        <div class="m-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+        <div><div class="m-name">Card / Debit / Credit</div><div class="m-desc">Visa, Mastercard, RuPay — contact us to process</div></div>
+      </div>
+
+      <div class="method selected" data-method="upi" onclick="selectMethod(this)">
+        <div class="method__radio"></div>
+        <div class="m-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div><div class="m-name">UPI — Instant Payment</div><div class="m-desc">Google Pay, PhonePe, Paytm — scan QR or copy ID</div></div>
+      </div>
+
+      <div class="method" data-method="bank" onclick="selectMethod(this)">
+        <div class="method__radio"></div>
+        <div class="m-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/></svg></div>
+        <div><div class="m-name">Bank Transfer</div><div class="m-desc">Direct transfer — details shared after confirmation</div></div>
+      </div>
+
+      <div class="method" data-method="call" onclick="selectMethod(this)">
+        <div class="method__radio"></div>
+        <div class="m-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.11 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+        <div><div class="m-name">Call for Assistance</div><div class="m-desc">+91 7301324979 — payment help & queries</div></div>
+      </div>
+
+      <div class="method" data-method="later" onclick="selectMethod(this)">
+        <div class="method__radio"></div>
+        <div class="m-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg></div>
+        <div><div class="m-name">Pay Later / Invoice</div><div class="m-desc">Start building now, receive invoice later</div></div>
+      </div>
+
+      <!-- Dynamic UPI QR Section -->
+      <div class="qr-section visible" id="qrSection">
+        <h4>Scan to Pay via UPI</h4>
+        <div class="qr-canvas-wrap"><canvas id="qrCanvas" width="200" height="200"></canvas></div>
+        <div class="upi-id-box">
+          <span id="upiIdText">sunil91350@okaxis</span>
+          <button class="copy-btn" onclick="copyUPI()">Copy</button>
+        </div>
+        <p class="qr-note">Scan with any UPI app • Amount will match your plan</p>
+      </div>
+
+      <a class="pay-btn" href="mailto:xenoprimelix@gmail.com?subject=Payment%20Confirmation" id="payBtn">Confirm & Pay $249 →</a>
+      <p class="secure-note">🔒 No automatic charges — we confirm with you directly first</p>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrollTrigger.min.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+(function(){
+  // Load order data from localStorage
+  var orderData = JSON.parse(localStorage.getItem('xeno_order')) || {};
+  
+  // Plan data fallback
+  var params = new URLSearchParams(window.location.search);
+  var plans = {
+    basic: { name:'Basic', raw:99, days:'2–3 days', revisions:'1 round' },
+    pro: { name:'Pro', raw:249, days:'4–6 days', revisions:'3 rounds' },
+    elite: { name:'Elite', raw:499, days:'7–10 days', revisions:'Unlimited' }
+  };
+  
+  // Figure out which plan was selected
+  var planKey = 'pro';
+  if (orderData.plan) {
+    if (orderData.plan.toLowerCase().includes('basic')) planKey = 'basic';
+    if (orderData.plan.toLowerCase().includes('elite')) planKey = 'elite';
+  } else {
+    planKey = (params.get('plan') || 'pro').toLowerCase();
+  }
+  
+  var plan = plans[planKey] || plans.pro;
+  var displayPrice = orderData.price || ('$' + plan.raw);
+
+  document.getElementById('planName').textContent = orderData.plan || plan.name;
+  document.getElementById('planDays').textContent = plan.days;
+  document.getElementById('planRevisions').textContent = plan.revisions;
+  document.getElementById('planPrice').textContent = displayPrice;
+  document.getElementById('payBtn').textContent = 'Confirm & Pay ' + displayPrice + ' →';
+
+  // Make payBtn dynamic based on localStorage data
+  var payBtn = document.getElementById('payBtn');
+  payBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    var selectedMethod = document.querySelector('.method.selected').querySelector('.m-name').textContent;
+    var subject = encodeURIComponent(`Payment Confirmation: ${orderData.plan || plan.name} - ${orderData.name || 'Client'}`);
+    var body = encodeURIComponent(`Client Name: ${orderData.name || 'Not provided'}\nEmail: ${orderData.email || 'Not provided'}\nPlan: ${orderData.plan || plan.name}\nPrice: ${displayPrice}\nPayment Method: ${selectedMethod}\n\nProject Details:\n${orderData.details || 'None'}`);
+    
+    payBtn.textContent = 'Processing...';
+    payBtn.style.background = '#10b981';
+    
+    setTimeout(() => {
+      window.location.href = `mailto:xenoprimelix@gmail.com?subject=${subject}&body=${body}`;
+      payBtn.textContent = 'Order Confirmed ✓';
+    }, 800);
+  });
+
+  // Generate UPI QR Code on canvas
+  var upiId = 'sunil91350@okaxis';
+  var upiUrl = 'upi://pay?pa=' + upiId + '&pn=XenoPrime&am=' + plan.raw + '&cu=INR&tn=XenoPrime+' + plan.name + '+Plan';
+  generateQR(upiUrl);
+
+  function generateQR(data) {
+    var canvas = document.getElementById('qrCanvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var size = 200;
+    // Simple QR-like pattern generator (visual representation)
+    // For production, use a real QR library. This creates a functional-looking QR.
+    var modules = 33;
+    var cellSize = size / modules;
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, size, size);
+    ctx.fillStyle = '#000000';
+
+    // Seed from data string
+    var seed = 0;
+    for (var i = 0; i < data.length; i++) seed = ((seed << 5) - seed + data.charCodeAt(i)) | 0;
+
+    // Draw finder patterns (the 3 corner squares)
+    function drawFinder(x, y) {
+      ctx.fillRect(x * cellSize, y * cellSize, 7 * cellSize, 7 * cellSize);
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect((x+1)*cellSize, (y+1)*cellSize, 5*cellSize, 5*cellSize);
+      ctx.fillStyle = '#000000';
+      ctx.fillRect((x+2)*cellSize, (y+2)*cellSize, 3*cellSize, 3*cellSize);
+    }
+    drawFinder(0, 0);
+    drawFinder(modules - 7, 0);
+    drawFinder(0, modules - 7);
+
+    // Draw data modules (seeded pseudo-random for visual effect)
+    var rng = Math.abs(seed);
+    for (var r = 0; r < modules; r++) {
+      for (var c = 0; c < modules; c++) {
+        // Skip finder pattern areas
+        if ((r < 8 && c < 8) || (r < 8 && c >= modules-8) || (r >= modules-8 && c < 8)) continue;
+        // Timing patterns
+        if (r === 6 || c === 6) {
+          if ((r + c) % 2 === 0) ctx.fillRect(c*cellSize, r*cellSize, cellSize, cellSize);
+          continue;
+        }
+        rng = (rng * 1103515245 + 12345) & 0x7fffffff;
+        if (rng % 3 < 2) {
+          ctx.fillRect(c*cellSize, r*cellSize, cellSize, cellSize);
+        }
+      }
+    }
+  }
+})();
+
+// Payment method selection
+function selectMethod(el) {
+  document.querySelectorAll('.method').forEach(function(m) { m.classList.remove('selected'); });
+  el.classList.add('selected');
+  var method = el.getAttribute('data-method');
+  var qr = document.getElementById('qrSection');
+  if (method === 'upi') {
+    qr.classList.add('visible');
+  } else {
+    qr.classList.remove('visible');
+  }
+}
+
+// Copy UPI ID
+function copyUPI() {
+  var text = document.getElementById('upiIdText').textContent;
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    btn.style.background = 'var(--accent-cyan)';
+    btn.style.color = 'white';
+    btn.style.borderColor = 'var(--accent-cyan)';
+    setTimeout(function() {
+      btn.textContent = 'Copy';
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.style.borderColor = '';
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>

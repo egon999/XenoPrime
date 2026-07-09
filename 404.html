@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XenoPrime — Page Not Found</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/design-tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/nav.css">
+<style>
+.error-page{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
+.error-page__bg{position:absolute;inset:0;background:var(--gradient-mesh);opacity:0.5}
+.error-page__content{position:relative;z-index:1}
+.error-code{font-family:var(--font-display);font-size:clamp(6rem,15vw,12rem);font-weight:var(--fw-bold);line-height:1;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:var(--space-md);opacity:0.8}
+.error-title{font-family:var(--font-display);font-size:var(--fs-h2);font-weight:var(--fw-bold);margin-bottom:var(--space-md)}
+.error-desc{color:var(--text-secondary);font-size:var(--fs-body-lg);max-width:400px;margin:0 auto var(--space-2xl)}
+</style>
+</head>
+<body>
+<div class="noise-overlay"></div>
+<nav class="nav scrolled"><div class="nav__inner">
+  <a href="index.html" class="nav__brand">Xeno<span class="nav__brand-accent">Prime</span></a>
+</div></nav>
+<div class="error-page">
+  <div class="error-page__bg"></div>
+  <div class="error-page__content">
+    <div class="error-code">404</div>
+    <h1 class="error-title">Page not found</h1>
+    <p class="error-desc">The page you're looking for doesn't exist or has been moved.</p>
+    <a href="index.html" class="btn btn--primary">Back to Home →</a>
+  </div>
+</div>
+</body>
+</html>
