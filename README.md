@@ -7,9 +7,9 @@ Welcome to the **XenoPrime** source code. This project represents a state-of-the
 ---
 
 ## 👨‍💻 Developer Credit & Customization
-This website was heavily customized, engineered, and brought to its final polished state by **Ayishman**.
+This website was heavily customized, engineered, and brought to its final polished state by **Ayushman**.
 
-**Development Highlights by Ayishman:**
+**Development Highlights by Ayushman:**
 - **Advanced E-Commerce Integration:** Developed a robust, client-side order flow using `localStorage` bridging, allowing users to seamlessly transition from booking modals to checkout gateways without backend latency.
 - **Dynamic WebGL Animations:** Integrated and optimized real-time 3D physics, including the high-speed rotating spiral and live interactive plasma backgrounds, ensuring performance without sacrificing visual fidelity.
 - **Premium UI/UX Polish:** Perfected the "Liquid Glass" design system, implementing global responsive navigation, dynamic GSAP scroll animations, randomized data counters, and flawlessly executed typing transitions.
@@ -38,4 +38,4 @@ This project stands as a testament to professional, detail-oriented front-end de
 
 ---
 
-*Engineered with precision. Customized by Ayishman.*
+*Engineered with precision. Customized by AYUSHMAN.*
